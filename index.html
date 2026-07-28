@@ -5,79 +5,93 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Галерея</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap');
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #fafafa;
-      color: #1a1a1a;
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: #fcfbf9;
+      color: #2c2c2c;
       line-height: 1.6;
     }
 
-    header {
-      padding: 60px 20px 40px;
+    /* Hero */
+    .hero {
+      padding: 100px 20px 60px;
       text-align: center;
-      background: #fff;
-      border-bottom: 1px solid #eee;
+      background: linear-gradient(180deg, #fcfbf9 0%, #f5f0eb 100%);
     }
 
-    header h1 {
-      font-size: 2.5em;
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.2em;
+      font-weight: 400;
+      color: #1a1a1a;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+
+    .hero p {
+      font-size: 1em;
+      color: #888;
       font-weight: 300;
-      letter-spacing: 2px;
-      margin-bottom: 8px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
     }
 
-    header p {
-      color: #666;
-      font-size: 1.1em;
+    .hero-divider {
+      width: 40px;
+      height: 1px;
+      background: #ccc;
+      margin: 24px auto;
     }
 
+    /* Gallery */
     .gallery {
-      max-width: 1200px;
-      margin: 40px auto;
-      padding: 0 20px;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+      columns: 3;
+      column-gap: 20px;
     }
 
     .card {
+      break-inside: avoid;
+      margin-bottom: 20px;
       background: #fff;
-      border-radius: 12px;
+      border-radius: 4px;
       overflow: hidden;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: transform 0.3s ease;
       cursor: pointer;
     }
 
     .card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
     }
 
     .card-image {
       width: 100%;
-      height: 320px;
-      object-fit: cover;
       display: block;
-      background: #f0f0f0;
+      background: #f0ece6;
     }
 
     .card-body {
-      padding: 20px;
+      padding: 20px 24px 24px;
     }
 
     .card-title {
-      font-size: 1.2em;
-      font-weight: 500;
-      margin-bottom: 8px;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15em;
+      color: #1a1a1a;
+      margin-bottom: 6px;
     }
 
     .card-description {
-      color: #666;
-      font-size: 0.95em;
-      margin-bottom: 12px;
+      font-size: 0.88em;
+      color: #888;
+      line-height: 1.7;
+      margin-bottom: 14px;
     }
 
     .card-footer {
@@ -87,45 +101,46 @@
     }
 
     .card-price {
-      font-size: 1.1em;
-      font-weight: 600;
+      font-size: 1em;
+      font-weight: 500;
       color: #1a1a1a;
     }
 
     .card-price.sold {
-      color: #999;
+      color: #bbb;
       text-decoration: line-through;
+      font-weight: 300;
     }
 
     .card-sold-badge {
-      background: #e8f5e9;
-      color: #2e7d32;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.85em;
+      font-size: 0.78em;
+      color: #999;
+      letter-spacing: 1px;
+      text-transform: uppercase;
     }
 
     .card-tags {
       display: flex;
       gap: 6px;
       flex-wrap: wrap;
-      margin-top: 8px;
+      margin-bottom: 14px;
     }
 
     .tag {
-      background: #f0f0f0;
-      padding: 2px 10px;
-      border-radius: 12px;
-      font-size: 0.8em;
-      color: #666;
+      font-size: 0.75em;
+      color: #999;
+      letter-spacing: 0.5px;
+      text-transform: lowercase;
     }
+
+    .tag::before { content: '/ '; }
 
     /* Lightbox */
     .lightbox {
       display: none;
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.9);
+      background: rgba(0,0,0,0.92);
       z-index: 1000;
       justify-content: center;
       align-items: center;
@@ -134,82 +149,135 @@
 
     .lightbox.open { display: flex; }
 
-    .lightbox img {
+    .lightbox-content {
+      position: relative;
       max-width: 90vw;
-      max-height: 85vh;
+      max-height: 90vh;
+      text-align: center;
+    }
+
+    .lightbox img {
+      max-width: 100%;
+      max-height: 75vh;
       object-fit: contain;
-      border-radius: 4px;
+      border-radius: 2px;
     }
 
     .lightbox-close {
-      position: absolute;
-      top: 20px;
-      right: 30px;
-      color: #fff;
+      position: fixed;
+      top: 24px;
+      right: 32px;
+      color: rgba(255,255,255,0.6);
       font-size: 2em;
       cursor: pointer;
       background: none;
       border: none;
+      font-weight: 100;
+      transition: color 0.2s;
     }
 
+    .lightbox-close:hover { color: #fff; }
+
     .lightbox-info {
-      position: absolute;
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: #fff;
-      text-align: center;
-      background: rgba(0,0,0,0.6);
-      padding: 12px 24px;
-      border-radius: 8px;
-      max-width: 80%;
+      margin-top: 20px;
+      color: rgba(255,255,255,0.85);
     }
+
+    .lightbox-info .title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3em;
+      margin-bottom: 6px;
+    }
+
+    .lightbox-info .desc {
+      font-size: 0.9em;
+      color: rgba(255,255,255,0.6);
+    }
+
+    .lightbox-info .price {
+      font-size: 1em;
+      color: rgba(255,255,255,0.85);
+      margin-top: 12px;
+    }
+
+    .lightbox-nav {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255,255,255,0.3);
+      font-size: 2.5em;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 20px;
+      transition: color 0.2s;
+      font-weight: 100;
+    }
+
+    .lightbox-nav:hover { color: rgba(255,255,255,0.8); }
+    .lightbox-nav.prev { left: 10px; }
+    .lightbox-nav.next { right: 10px; }
 
     footer {
       text-align: center;
-      padding: 40px;
-      color: #999;
-      font-size: 0.9em;
+      padding: 40px 20px 60px;
+      color: #ccc;
+      font-size: 0.82em;
     }
 
     .empty {
       text-align: center;
       padding: 80px 20px;
-      color: #999;
+      color: #bbb;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2em;
+      column-span: all;
+    }
+
+    @media (max-width: 900px) {
+      .gallery { columns: 2; }
+      .hero h1 { font-size: 2.2em; }
     }
 
     @media (max-width: 600px) {
-      header h1 { font-size: 1.8em; }
-      .gallery { grid-template-columns: 1fr; }
-      .card-image { height: 240px; }
+      .gallery { columns: 1; }
+      .hero { padding: 60px 20px 40px; }
+      .hero h1 { font-size: 1.8em; }
+      .lightbox-nav { font-size: 1.5em; }
     }
   </style>
 </head>
 <body>
-  <header>
+  <div class="hero">
     <h1>Галерея</h1>
+    <div class="hero-divider"></div>
     <p>Картины</p>
-  </header>
+  </div>
 
   <div class="gallery" id="gallery"></div>
 
-  <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
-    <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
-    <img id="lightbox-img" src="" alt="">
-    <div class="lightbox-info" id="lightbox-info"></div>
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" onclick="closeLightbox()">&#10005;</button>
+    <button class="lightbox-nav prev" onclick="navigate(-1)">&#8249;</button>
+    <div class="lightbox-content">
+      <img id="lightbox-img" src="" alt="">
+      <div class="lightbox-info" id="lightbox-info"></div>
+    </div>
+    <button class="lightbox-nav next" onclick="navigate(1)">&#8250;</button>
   </div>
 
   <footer>&copy; 2026</footer>
 
   <script>
     let paintings = [];
+    let currentId = 0;
 
     async function loadGallery() {
       try {
         const res = await fetch('paintings.json');
         paintings = await res.json();
         renderGallery();
-      } catch (e) {
+      } catch {
         document.getElementById('gallery').innerHTML =
           '<div class="empty">Галерея пока пуста</div>';
       }
@@ -224,16 +292,15 @@
       gallery.innerHTML = paintings.map(p => `
         <div class="card" onclick="openLightbox(${p.id})">
           <img class="card-image" src="${p.image}" alt="${p.title}"
-               onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 320%22><rect fill=%22%23f0f0f0%22 width=%22400%22 height=%22320%22/><text fill=%22%23999%22 font-size=%2220%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22>Нет фото</text></svg>'">
+               onerror="this.style.padding='40%';this.style.background='#f0ece6'">
           <div class="card-body">
             <div class="card-title">${p.title}</div>
-            <div class="card-description">${p.description || ''}</div>
-            <div class="card-tags">${(p.tags||[]).map(t => `<span class="tag">${t}</span>`).join('')}</div>
-            <div class="card-footer" style="margin-top:12px">
+            ${p.description ? `<div class="card-description">${p.description}</div>` : ''}
+            ${p.tags?.length ? `<div class="card-tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>` : ''}
+            <div class="card-footer">
               <span class="card-price ${p.sold ? 'sold' : ''}">
-                ${p.sold ? 'Продано' : (p.price ? p.price.toLocaleString() + ' ₽' : '')}
+                ${p.sold ? '— продано —' : (p.price ? p.price.toLocaleString() + ' ₽' : '')}
               </span>
-              ${p.sold ? '<span class="card-sold-badge">Продано</span>' : ''}
             </div>
           </div>
         </div>
@@ -241,22 +308,31 @@
     }
 
     function openLightbox(id) {
+      currentId = id;
       const p = paintings.find(x => x.id === id);
       if (!p) return;
       document.getElementById('lightbox-img').src = p.image;
       document.getElementById('lightbox-info').innerHTML =
-        `<strong>${p.title}</strong>${p.description ? '<br>' + p.description : ''}${p.price && !p.sold ? '<br><strong>' + p.price.toLocaleString() + ' ₽</strong>' : ''}`;
+        `<div class="title">${p.title}</div>` +
+        (p.description ? `<div class="desc">${p.description}</div>` : '') +
+        (p.price && !p.sold ? `<div class="price">${p.price.toLocaleString()} ₽</div>` : p.sold ? `<div class="price" style="opacity:0.5">Продано</div>` : '');
       document.getElementById('lightbox').classList.add('open');
     }
 
-    function closeLightbox(e) {
-      if (!e || e.target === e.currentTarget || e.target.tagName === 'BUTTON') {
-        document.getElementById('lightbox').classList.remove('open');
-      }
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+    }
+
+    function navigate(dir) {
+      const idx = paintings.findIndex(x => x.id === currentId);
+      const next = (idx + dir + paintings.length) % paintings.length;
+      openLightbox(paintings[next].id);
     }
 
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') navigate(-1);
+      if (e.key === 'ArrowRight') navigate(1);
     });
 
     loadGallery();
