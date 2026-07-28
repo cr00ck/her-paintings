@@ -2,7 +2,7 @@
   {
     "id": 1,
     "title": "Картина 1",
-    "description": "",
+    "description": "Введите описание — материалы, размер, вдохновение",
     "price": 0,
     "sold": false,
     "image": "assets/images/20250206_184255.png",
@@ -11,7 +11,7 @@
   {
     "id": 2,
     "title": "Картина 2",
-    "description": "",
+    "description": "Введите описание — материалы, размер, вдохновение",
     "price": 0,
     "sold": false,
     "image": "assets/images/20250206_184301.png",
@@ -20,7 +20,7 @@
   {
     "id": 3,
     "title": "Картина 3",
-    "description": "",
+    "description": "Введите описание — материалы, размер, вдохновение",
     "price": 0,
     "sold": false,
     "image": "assets/images/20250206_185249.png",
