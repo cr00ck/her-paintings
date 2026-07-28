@@ -19,8 +19,8 @@
       align-items: center;
       justify-content: space-between;
       padding: 20px 24px;
-      border-bottom: 1px solid #c0d8e8;
-      background: #d4ebf7;
+      border-bottom: 1px solid #a8c4d8;
+      background: #b8d4e8;
     }
 
     header .logo {
@@ -55,8 +55,8 @@
     }
 
     .hero-wrap {
-      background: #c8e0f0;
-      border-bottom: 1px solid #b0c8d8;
+      background: #b8d4e8;
+      border-bottom: 1px solid #a8c4d8;
     }
 
     .hero h1 {
@@ -85,18 +85,25 @@
 
     .card {
       cursor: pointer;
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.12);
     }
 
     .card-image-wrap {
       background: #eef5fa;
-      border-radius: 8px;
       overflow: hidden;
-      margin-bottom: 12px;
-      transition: transform 0.2s;
     }
 
-    .card:hover .card-image-wrap {
-      transform: scale(1.01);
+    .card-body {
+      padding: 0 16px 20px;
     }
 
     .card-image {
@@ -113,7 +120,7 @@
 
     .card-meta {
       font-size: 0.85em;
-      color: #999;
+      color: #888;
     }
 
     .card-meta .sold {
@@ -130,7 +137,7 @@
 
     .card-tags span {
       font-size: 0.78em;
-      color: #bbb;
+      color: #aaa;
     }
 
     .lightbox {
@@ -295,11 +302,13 @@
             <img class="card-image" src="${p.image}" alt="${p.title}"
                  onerror="this.style.padding='60%';this.style.background='#f0f0f0'">
           </div>
-          <div class="card-title">${p.title}</div>
-          <div class="card-meta">
-            ${p.sold ? '<span class="sold">Продано</span>' : (p.price ? p.price.toLocaleString() + ' ₽' : '')}
+          <div class="card-body">
+            <div class="card-title">${p.title}</div>
+            <div class="card-meta">
+              ${p.sold ? '<span class="sold">Продано</span>' : (p.price ? p.price.toLocaleString() + ' ₽' : '')}
+            </div>
+            ${p.tags?.length ? `<div class="card-tags">${p.tags.map(t => `<span>${t}</span>`).join('')}</div>` : ''}
           </div>
-          ${p.tags?.length ? `<div class="card-tags">${p.tags.map(t => `<span>${t}</span>`).join('')}</div>` : ''}
         </div>
       `).join('');
     }
