@@ -240,8 +240,33 @@
       font-size: 0.82em;
     }
 
+    .filters {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px 24px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .filter {
+      background: rgba(255,255,255,0.6);
+      border: none;
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-size: 0.88em;
+      font-family: inherit;
+      color: #555;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter:hover { background: rgba(255,255,255,0.9); color: #111; }
+    .filter.active { background: #5a8db0; color: #fff; }
+
     .empty {
-      grid-column: 1 / -1;
+      column-span: all;
       text-align: center;
       padding: 80px 20px;
       color: #bbb;
@@ -276,6 +301,14 @@
     </div>
   </div>
 
+  <div class="filters">
+    <button class="filter active" data-filter="all">Все</button>
+    <button class="filter" data-filter="натюрморт">Натюрморт</button>
+    <button class="filter" data-filter="архитектура">Архитектура</button>
+    <button class="filter" data-filter="природа">Природа</button>
+    <button class="filter" data-filter="люди">Люди</button>
+  </div>
+
   <div class="gallery" id="gallery"></div>
 
   <div class="lightbox" id="lightbox">
@@ -293,6 +326,7 @@
   <script>
     let paintings = [];
     let currentId = 0;
+    let activeFilter = 'all';
 
     async function loadGallery() {
       try {
@@ -305,13 +339,26 @@
       }
     }
 
+    function setFilter(tag) {
+      activeFilter = tag;
+      document.querySelectorAll('.filter').forEach(b => b.classList.toggle('active', b.dataset.filter === tag));
+      renderGallery();
+    }
+
+    document.querySelectorAll('.filter').forEach(b => b.addEventListener('click', () => setFilter(b.dataset.filter)));
+
     function renderGallery() {
       const gallery = document.getElementById('gallery');
       if (!paintings.length) {
         gallery.innerHTML = '<div class="empty">Галерея пока пуста</div>';
         return;
       }
-      gallery.innerHTML = paintings.map(p => `
+      const filtered = activeFilter === 'all' ? paintings : paintings.filter(p => p.tags.includes(activeFilter));
+      if (!filtered.length) {
+        gallery.innerHTML = '<div class="empty">По выбранным параметрам ничего не найдено</div>';
+        return;
+      }
+      gallery.innerHTML = filtered.map(p => `
         <div class="card" onclick="openLightbox(${p.id})">
           <div class="card-image-wrap">
             <img class="card-image" src="${p.image}" alt="${p.title}"
