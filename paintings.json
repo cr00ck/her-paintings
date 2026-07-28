@@ -6,6 +6,24 @@
     "price": 5000,
     "sold": false,
     "image": "assets/images/placeholder.jpg",
-    "tags": ["масло", "пейзаж"]
+    "tags": ["гуашь", "пейзаж"]
+  },
+  {
+    "id": 2,
+    "title": "Вторая картина",
+    "description": "Описание второй картины. Здесь можно рассказать про материалы, вдохновение и историю создания.",
+    "price": 6000,
+    "sold": false,
+    "image": "assets/images/placeholder.jpg",
+    "tags": ["акварель", "пейзаж"]
+  },
+  {
+    "id": 3,
+    "title": "Третья картина",
+    "description": "Описание третьей картины. Здесь можно рассказать про материалы, вдохновение и историю создания.",
+    "price": 7000,
+    "sold": false,
+    "image": "assets/images/placeholder.jpg",
+    "tags": ["пастель", "пейзаж"]
   }
 ]
