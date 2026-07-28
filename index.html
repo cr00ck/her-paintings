@@ -54,7 +54,11 @@
     .hero {
       max-width: 1100px;
       margin: 0 auto;
-      padding: 80px 24px 60px;
+      padding: 60px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
     }
 
     .hero-wrap {
@@ -62,23 +66,50 @@
       border-bottom: 1px solid #4a7a7d;
     }
 
-    .hero h1 { color: #fff; }
-    .hero h1 {
+    .hero-text h1 {
       font-family: 'Playfair Display', serif;
       font-size: 3em;
       font-weight: 400;
       letter-spacing: 0;
       line-height: 1.1;
-      max-width: 600px;
       margin-bottom: 10px;
+      color: #fff;
     }
 
-    .hero p {
+    .hero-text p {
       color: #fff;
       font-family: 'Playfair Display', serif;
       font-style: italic;
       font-size: 1.15em;
       opacity: 0.85;
+    }
+
+    .hero-author {
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .hero-author .author-photo {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      margin: 0 auto 10px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+      border: 3px solid rgba(255,255,255,0.3);
+    }
+
+    .hero-author .author-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.85em;
+      line-height: 1.5;
+      color: #fff;
+      opacity: 0.85;
+    }
+
+    @media (max-width: 600px) {
+      .hero { flex-direction: column; text-align: center; padding: 40px 24px; }
     }
 
 
@@ -271,39 +302,8 @@
       padding: 0 0 80px;
     }
 
-    .sidebar {
-      width: 220px;
-      flex-shrink: 0;
-      position: sticky;
-      top: 24px;
-      padding-top: 24px;
-    }
-
-    .author-card {
-      text-align: center;
-    }
-
-    .author-photo {
-      width: 180px;
-      height: 180px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-bottom: 16px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-    }
-
-    .author-card h2 {
-      font-family: 'Playfair Display', serif;
-      font-weight: 400;
-      font-size: 1em;
-      line-height: 1.6;
-      color: #444;
-    }
-
     @media (max-width: 800px) {
       .content { flex-direction: column; }
-      .sidebar { width: 100%; position: static; text-align: center; }
-      .author-photo { width: 120px; height: 120px; }
       .main .filters { justify-content: center; }
     }
 
@@ -338,8 +338,14 @@
 
   <div class="hero-wrap">
     <div class="hero">
-      <h1>Картины</h1>
-      <p>Галерея</p>
+      <div class="hero-text">
+        <h1>Картины</h1>
+        <p>Галерея</p>
+      </div>
+      <div class="hero-author">
+        <img class="author-photo" src="assets/images/20260627_135343(1).jpg" alt="Бяльская Кристина Сергеевна">
+        <div class="author-name">Бяльская<br>Кристина<br>Сергеевна</div>
+      </div>
     </div>
   </div>
 
@@ -356,12 +362,7 @@
       <div class="gallery" id="gallery"></div>
     </div>
 
-    <aside class="sidebar">
-      <div class="author-card">
-        <img class="author-photo" src="assets/images/20260627_135343(1).jpg" alt="Бяльская Кристина Сергеевна">
-        <h2>Бяльская<br>Кристина<br>Сергеевна</h2>
-      </div>
-    </aside>
+
   </div>
 
   <div class="lightbox" id="lightbox">
