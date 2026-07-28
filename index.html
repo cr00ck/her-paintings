@@ -84,9 +84,6 @@
 
 
     .gallery {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 24px 80px;
       columns: 3;
       column-gap: 20px;
     }
@@ -236,16 +233,6 @@
       font-size: 0.82em;
     }
 
-    .filters {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 20px 24px 24px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
     .filter {
       background: rgba(255,255,255,0.6);
       border: none;
@@ -261,6 +248,65 @@
     .filter:hover { background: rgba(255,255,255,0.9); color: #111; }
     .filter.active { background: #5a8db0; color: #fff; }
 
+    .content {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      gap: 32px;
+      align-items: flex-start;
+    }
+
+    .main {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .main .filters {
+      padding: 20px 0 24px;
+      justify-content: flex-start;
+    }
+
+    .main .gallery {
+      padding: 0 0 80px;
+    }
+
+    .sidebar {
+      width: 220px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 24px;
+      padding-top: 24px;
+    }
+
+    .author-card {
+      text-align: center;
+    }
+
+    .author-photo {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    }
+
+    .author-card h2 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 400;
+      font-size: 1em;
+      line-height: 1.6;
+      color: #444;
+    }
+
+    @media (max-width: 800px) {
+      .content { flex-direction: column; }
+      .sidebar { width: 100%; position: static; text-align: center; }
+      .author-photo { width: 120px; height: 120px; }
+      .main .filters { justify-content: center; }
+    }
+
     .empty {
       column-span: all;
       text-align: center;
@@ -269,12 +315,12 @@
     }
 
     @media (max-width: 900px) {
-      .gallery { columns: 2; }
+      .main .gallery { columns: 2; }
       .hero h1 { font-size: 2em; }
     }
 
     @media (max-width: 600px) {
-      .gallery { columns: 1; }
+      .main .gallery { columns: 1; }
       header { flex-direction: column; gap: 12px; }
       .hero { padding: 40px 24px 30px; }
       .hero h1 { font-size: 1.5em; }
@@ -297,15 +343,26 @@
     </div>
   </div>
 
-  <div class="filters">
-    <button class="filter active" data-filter="all">Все</button>
-    <button class="filter" data-filter="натюрморт">Натюрморт</button>
-    <button class="filter" data-filter="архитектура">Архитектура</button>
-    <button class="filter" data-filter="природа">Природа</button>
-    <button class="filter" data-filter="люди">Люди</button>
-  </div>
+  <div class="content">
+    <div class="main">
+      <div class="filters">
+        <button class="filter active" data-filter="all">Все</button>
+        <button class="filter" data-filter="натюрморт">Натюрморт</button>
+        <button class="filter" data-filter="архитектура">Архитектура</button>
+        <button class="filter" data-filter="природа">Природа</button>
+        <button class="filter" data-filter="люди">Люди</button>
+      </div>
 
-  <div class="gallery" id="gallery"></div>
+      <div class="gallery" id="gallery"></div>
+    </div>
+
+    <aside class="sidebar">
+      <div class="author-card">
+        <img class="author-photo" src="assets/images/20260627_135343(1).jpg" alt="Бяльская Кристина Сергеевна">
+        <h2>Бяльская<br>Кристина<br>Сергеевна</h2>
+      </div>
+    </aside>
+  </div>
 
   <div class="lightbox" id="lightbox">
     <button class="lightbox-close" onclick="closeLightbox()">&#10005;</button>
