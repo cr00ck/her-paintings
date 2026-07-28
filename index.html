@@ -5,142 +5,137 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Галерея</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap');
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      font-family: 'Inter', -apple-system, sans-serif;
-      background: #fcfbf9;
-      color: #2c2c2c;
-      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #fff;
+      color: #111;
+      line-height: 1.5;
     }
+
+    /* Header */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    header .logo {
+      font-size: 1.1em;
+      font-weight: 600;
+      text-decoration: none;
+      color: #111;
+    }
+
+    header nav {
+      display: flex;
+      gap: 16px;
+    }
+
+    header nav a, header nav button {
+      background: none;
+      border: none;
+      font-size: 0.88em;
+      color: #888;
+      cursor: pointer;
+      text-decoration: none;
+      font-family: inherit;
+      transition: color 0.2s;
+    }
+
+    header nav a:hover, header nav button:hover { color: #111; }
 
     /* Hero */
     .hero {
-      padding: 100px 20px 60px;
-      text-align: center;
-      background: linear-gradient(180deg, #fcfbf9 0%, #f5f0eb 100%);
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 80px 24px 60px;
     }
 
     .hero h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 3.2em;
-      font-weight: 400;
-      color: #1a1a1a;
-      margin-bottom: 12px;
-      letter-spacing: 1px;
+      font-size: 2.8em;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      max-width: 600px;
+      margin-bottom: 16px;
     }
 
     .hero p {
-      font-size: 1em;
+      font-size: 1.05em;
       color: #888;
-      font-weight: 300;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-    }
-
-    .hero-divider {
-      width: 40px;
-      height: 1px;
-      background: #ccc;
-      margin: 24px auto;
+      max-width: 500px;
     }
 
     /* Gallery */
     .gallery {
       max-width: 1100px;
       margin: 0 auto;
-      padding: 40px 20px 80px;
-      columns: 3;
-      column-gap: 20px;
+      padding: 0 24px 80px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
     }
 
     .card {
-      break-inside: avoid;
-      margin-bottom: 20px;
-      background: #fff;
-      border-radius: 4px;
-      overflow: hidden;
-      transition: transform 0.3s ease;
       cursor: pointer;
     }
 
-    .card:hover {
-      transform: translateY(-4px);
+    .card-image-wrap {
+      background: #f7f7f7;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 12px;
+      transition: transform 0.2s;
+    }
+
+    .card:hover .card-image-wrap {
+      transform: scale(1.01);
     }
 
     .card-image {
       width: 100%;
       display: block;
-      background: #f0ece6;
-    }
-
-    .card-body {
-      padding: 20px 24px 24px;
+      background: #f0f0f0;
     }
 
     .card-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.15em;
-      color: #1a1a1a;
-      margin-bottom: 6px;
-    }
-
-    .card-description {
-      font-size: 0.88em;
-      color: #888;
-      line-height: 1.7;
-      margin-bottom: 14px;
-    }
-
-    .card-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .card-price {
       font-size: 1em;
       font-weight: 500;
-      color: #1a1a1a;
+      margin-bottom: 4px;
     }
 
-    .card-price.sold {
-      color: #bbb;
-      text-decoration: line-through;
-      font-weight: 300;
-    }
-
-    .card-sold-badge {
-      font-size: 0.78em;
+    .card-meta {
+      font-size: 0.85em;
       color: #999;
-      letter-spacing: 1px;
-      text-transform: uppercase;
+    }
+
+    .card-meta .sold {
+      color: #aaa;
+      text-decoration: line-through;
     }
 
     .card-tags {
       display: flex;
-      gap: 6px;
+      gap: 8px;
+      margin-top: 6px;
       flex-wrap: wrap;
-      margin-bottom: 14px;
     }
 
-    .tag {
-      font-size: 0.75em;
-      color: #999;
-      letter-spacing: 0.5px;
-      text-transform: lowercase;
+    .card-tags span {
+      font-size: 0.78em;
+      color: #bbb;
     }
-
-    .tag::before { content: '/ '; }
 
     /* Lightbox */
     .lightbox {
       display: none;
       position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.92);
+      inset: 0;
+      background: rgba(0,0,0,0.9);
       z-index: 1000;
       justify-content: center;
       align-items: center;
@@ -150,29 +145,26 @@
     .lightbox.open { display: flex; }
 
     .lightbox-content {
-      position: relative;
-      max-width: 90vw;
-      max-height: 90vh;
       text-align: center;
+      max-width: 90vw;
     }
 
     .lightbox img {
       max-width: 100%;
       max-height: 75vh;
       object-fit: contain;
-      border-radius: 2px;
+      border-radius: 4px;
     }
 
     .lightbox-close {
       position: fixed;
-      top: 24px;
-      right: 32px;
-      color: rgba(255,255,255,0.6);
+      top: 20px;
+      right: 28px;
+      color: rgba(255,255,255,0.5);
       font-size: 2em;
       cursor: pointer;
       background: none;
       border: none;
-      font-weight: 100;
       transition: color 0.2s;
     }
 
@@ -180,24 +172,24 @@
 
     .lightbox-info {
       margin-top: 20px;
-      color: rgba(255,255,255,0.85);
+      color: rgba(255,255,255,0.8);
     }
 
     .lightbox-info .title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.3em;
-      margin-bottom: 6px;
+      font-size: 1.2em;
+      font-weight: 500;
     }
 
     .lightbox-info .desc {
       font-size: 0.9em;
-      color: rgba(255,255,255,0.6);
+      color: rgba(255,255,255,0.5);
+      margin-top: 4px;
     }
 
     .lightbox-info .price {
-      font-size: 1em;
-      color: rgba(255,255,255,0.85);
       margin-top: 12px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.8);
     }
 
     .lightbox-nav {
@@ -205,53 +197,58 @@
       top: 50%;
       transform: translateY(-50%);
       color: rgba(255,255,255,0.3);
-      font-size: 2.5em;
+      font-size: 2em;
       cursor: pointer;
       background: none;
       border: none;
       padding: 20px;
       transition: color 0.2s;
-      font-weight: 100;
     }
 
     .lightbox-nav:hover { color: rgba(255,255,255,0.8); }
     .lightbox-nav.prev { left: 10px; }
     .lightbox-nav.next { right: 10px; }
 
+    /* Footer */
     footer {
       text-align: center;
-      padding: 40px 20px 60px;
+      padding: 40px 24px 60px;
       color: #ccc;
       font-size: 0.82em;
     }
 
     .empty {
+      grid-column: 1 / -1;
       text-align: center;
       padding: 80px 20px;
       color: #bbb;
-      font-family: 'Playfair Display', serif;
-      font-size: 1.2em;
-      column-span: all;
     }
 
     @media (max-width: 900px) {
-      .gallery { columns: 2; }
-      .hero h1 { font-size: 2.2em; }
+      .gallery { grid-template-columns: repeat(2, 1fr); }
+      .hero h1 { font-size: 2em; }
     }
 
     @media (max-width: 600px) {
-      .gallery { columns: 1; }
-      .hero { padding: 60px 20px 40px; }
-      .hero h1 { font-size: 1.8em; }
-      .lightbox-nav { font-size: 1.5em; }
+      .gallery { grid-template-columns: 1fr; }
+      header { flex-direction: column; gap: 12px; }
+      .hero { padding: 40px 24px 30px; }
+      .hero h1 { font-size: 1.5em; }
     }
   </style>
 </head>
 <body>
+  <header>
+    <a href="/" class="logo">Галерея</a>
+    <nav>
+      <a href="https://instagram.com" target="_blank">Instagram</a>
+      <a href="mailto:email@mail.ru">Связаться</a>
+    </nav>
+  </header>
+
   <div class="hero">
-    <h1>Галерея</h1>
-    <div class="hero-divider"></div>
-    <p>Картины</p>
+    <h1>Картины</h1>
+    <p>Галерея</p>
   </div>
 
   <div class="gallery" id="gallery"></div>
@@ -291,18 +288,15 @@
       }
       gallery.innerHTML = paintings.map(p => `
         <div class="card" onclick="openLightbox(${p.id})">
-          <img class="card-image" src="${p.image}" alt="${p.title}"
-               onerror="this.style.padding='40%';this.style.background='#f0ece6'">
-          <div class="card-body">
-            <div class="card-title">${p.title}</div>
-            ${p.description ? `<div class="card-description">${p.description}</div>` : ''}
-            ${p.tags?.length ? `<div class="card-tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>` : ''}
-            <div class="card-footer">
-              <span class="card-price ${p.sold ? 'sold' : ''}">
-                ${p.sold ? '— продано —' : (p.price ? p.price.toLocaleString() + ' ₽' : '')}
-              </span>
-            </div>
+          <div class="card-image-wrap">
+            <img class="card-image" src="${p.image}" alt="${p.title}"
+                 onerror="this.style.padding='60%';this.style.background='#f0f0f0'">
           </div>
+          <div class="card-title">${p.title}</div>
+          <div class="card-meta">
+            ${p.sold ? '<span class="sold">Продано</span>' : (p.price ? p.price.toLocaleString() + ' ₽' : '')}
+          </div>
+          ${p.tags?.length ? `<div class="card-tags">${p.tags.map(t => `<span>${t}</span>`).join('')}</div>` : ''}
         </div>
       `).join('');
     }
