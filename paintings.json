@@ -2,37 +2,309 @@
   {
     "id": 1,
     "title": "Картина 1",
-    "description": "Введите описание — материалы, размер, вдохновение",
+    "description": "",
     "price": 0,
     "sold": false,
-    "image": "assets/images/20250206_184255.png",
-    "tags": []
+    "image": "assets/images/20250206_184248.png",
+    "tags": [
+      "природа"
+    ]
   },
   {
     "id": 2,
     "title": "Картина 2",
-    "description": "Введите описание — материалы, размер, вдохновение",
+    "description": "",
     "price": 0,
     "sold": false,
-    "image": "assets/images/20250206_184301.png",
-    "tags": []
+    "image": "assets/images/20250206_184255.png",
+    "tags": [
+      "природа"
+    ]
   },
   {
     "id": 3,
     "title": "Картина 3",
-    "description": "Введите описание — материалы, размер, вдохновение",
+    "description": "",
     "price": 0,
     "sold": false,
-    "image": "assets/images/20250206_185249.png",
-    "tags": []
+    "image": "assets/images/20250206_184301.png",
+    "tags": [
+      "природа"
+    ]
   },
   {
     "id": 4,
     "title": "Картина 4",
-    "description": "Введите описание — материалы, размер, вдохновение",
+    "description": "",
+    "price": 0,
+    "sold": false,
+    "image": "assets/images/20250206_185249.png",
+    "tags": [
+      "природа"
+    ]
+  },
+  {
+    "id": 5,
+    "title": "Картина 5",
+    "description": "",
+    "price": 0,
+    "sold": false,
+    "image": "assets/images/20250206_185301.jpg",
+    "tags": [
+      "природа"
+    ]
+  },
+  {
+    "id": 6,
+    "title": "Картина 6",
+    "description": "",
+    "price": 0,
+    "sold": false,
+    "image": "assets/images/20250206_185317.jpg",
+    "tags": [
+      "природа"
+    ]
+  },
+  {
+    "id": 7,
+    "title": "Картина 7",
+    "description": "",
+    "price": 0,
+    "sold": false,
+    "image": "assets/images/20250206_185354.png",
+    "tags": [
+      "природа"
+    ]
+  },
+  {
+    "id": 8,
+    "title": "Картина 8",
+    "description": "",
+    "price": 0,
+    "sold": false,
+    "image": "assets/images/20250206_185407.jpg",
+    "tags": [
+      "природа"
+    ]
+  },
+  {
+    "id": 9,
+    "title": "Картина 9",
+    "description": "",
+    "price": 0,
+    "sold": false,
+    "image": "assets/images/20250206_185423.png",
+    "tags": [
+      "природа"
+    ]
+  },
+  {
+    "id": 10,
+    "title": "Картина 10",
+    "description": "",
     "price": 0,
     "sold": false,
     "image": "assets/images/20250206_185439.png",
-    "tags": []
+    "tags": [
+      "природа"
+    ]
+  },
+  {
+    "id": 11,
+    "title": "Картина 11",
+    "description": "",
+    "price": 0,
+    "sold": false,
+    "image": "assets/images/20250206_185800.png",
+    "tags": [
+      "природа"
+    ]
+  },
+  {
+    "id": 12,
+    "title": "Картина 12",
+    "description": "",
+    "price": 0,
+    "sold": false,
+    "image": "assets/images/20250206_185817.jpg",
+    "tags": [
+      "природа"
+    ]
+  },
+  {
+    "id": 13,
+    "title": "Картина 13",
+    "description": "",
+    "price": 0,
+    "sold": false,
+    "image": "assets/images/20250206_190207.png",
+    "tags": [
+      "природа"
+    ]
+  },
+  {
+    "id": 14,
+    "title": "Картина 14",
+    "description": "",
+    "price": 0,
+    "sold": false,
+    "image": "assets/images/20250206_190214.jpg",
+    "tags": [
+      "природа"
+    ]
+  },
+  {
+    "id": 15,
+    "title": "Картина 15",
+    "description": "",
+    "price": 0,
+    "sold": false,
+    "image": "assets/images/20250206_190230.png",
+    "tags": [
+      "природа"
+    ]
+  },
+  {
+    "id": 16,
+    "title": "Картина 16",
+    "description": "",
+    "price": 0,
+    "sold": false,
+    "image": "assets/images/20250206_190310.jpg",
+    "tags": [
+      "природа"
+    ]
+  },
+  {
+    "id": 17,
+    "title": "Картина 17",
+    "description": "",
+    "price": 0,
+    "sold": false,
+    "image": "assets/images/20250206_190434.png",
+    "tags": [
+      "природа"
+    ]
+  },
+  {
+    "id": 18,
+    "title": "Картина 18",
+    "description": "",
+    "price": 0,
+    "sold": false,
+    "image": "assets/images/20250206_190449.png",
+    "tags": [
+      "природа"
+    ]
+  },
+  {
+    "id": 19,
+    "title": "Картина 19",
+    "description": "",
+    "price": 0,
+    "sold": false,
+    "image": "assets/images/20250206_190601.jpg",
+    "tags": [
+      "природа"
+    ]
+  },
+  {
+    "id": 20,
+    "title": "Картина 20",
+    "description": "",
+    "price": 0,
+    "sold": false,
+    "image": "assets/images/20250206_190632.png",
+    "tags": [
+      "природа"
+    ]
+  },
+  {
+    "id": 21,
+    "title": "Картина 21",
+    "description": "",
+    "price": 0,
+    "sold": false,
+    "image": "assets/images/20250206_190751.jpg",
+    "tags": [
+      "природа"
+    ]
+  },
+  {
+    "id": 22,
+    "title": "Картина 22",
+    "description": "",
+    "price": 0,
+    "sold": false,
+    "image": "assets/images/20250206_190806.png",
+    "tags": [
+      "природа"
+    ]
+  },
+  {
+    "id": 23,
+    "title": "Картина 23",
+    "description": "",
+    "price": 0,
+    "sold": false,
+    "image": "assets/images/20250206_190945.jpg",
+    "tags": [
+      "природа"
+    ]
+  },
+  {
+    "id": 24,
+    "title": "Картина 24",
+    "description": "",
+    "price": 0,
+    "sold": false,
+    "image": "assets/images/20250206_191022.png",
+    "tags": [
+      "природа"
+    ]
+  },
+  {
+    "id": 25,
+    "title": "Картина 25",
+    "description": "",
+    "price": 0,
+    "sold": false,
+    "image": "assets/images/20250206_191056.png",
+    "tags": [
+      "природа"
+    ]
+  },
+  {
+    "id": 26,
+    "title": "Картина 26",
+    "description": "",
+    "price": 0,
+    "sold": false,
+    "image": "assets/images/20250206_191149.jpg",
+    "tags": [
+      "природа"
+    ]
+  },
+  {
+    "id": 27,
+    "title": "Картина 27",
+    "description": "",
+    "price": 0,
+    "sold": false,
+    "image": "assets/images/20250206_191251.jpg",
+    "tags": [
+      "природа"
+    ]
+  },
+  {
+    "id": 28,
+    "title": "Картина 28",
+    "description": "",
+    "price": 0,
+    "sold": false,
+    "image": "assets/images/20250206_191309.png",
+    "tags": [
+      "природа"
+    ]
   }
 ]
