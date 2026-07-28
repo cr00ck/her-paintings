@@ -25,5 +25,14 @@
     "sold": false,
     "image": "assets/images/20250206_185249.png",
     "tags": []
+  },
+  {
+    "id": 4,
+    "title": "Картина 4",
+    "description": "Введите описание — материалы, размер, вдохновение",
+    "price": 0,
+    "sold": false,
+    "image": "assets/images/20250206_185439.png",
+    "tags": []
   }
 ]
