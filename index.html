@@ -85,27 +85,29 @@
     }
 
     .hero-author {
-      text-align: center;
+      display: flex;
+      align-items: center;
+      gap: 16px;
       flex-shrink: 0;
     }
 
     .hero-author .author-photo {
-      width: 100px;
-      height: 100px;
+      width: 130px;
+      height: 130px;
       border-radius: 50%;
       object-fit: cover;
       display: block;
-      margin: 0 auto 10px;
       box-shadow: 0 4px 16px rgba(0,0,0,0.15);
       border: 3px solid rgba(255,255,255,0.3);
     }
 
     .hero-author .author-name {
       font-family: 'Playfair Display', serif;
-      font-size: 0.85em;
+      font-size: 0.95em;
       line-height: 1.5;
       color: #fff;
       opacity: 0.85;
+      white-space: nowrap;
     }
 
     @media (max-width: 600px) {
