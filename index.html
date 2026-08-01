@@ -198,6 +198,48 @@
         inset 0 0 0 7px #aaa;
     }
 
+    .frame-wide-gold {
+      background: #fdfdf9;
+      box-shadow:
+        inset 0 0 0 2px #f2ead4,
+        inset 0 0 0 10px #c8b88e,
+        inset 0 0 0 11px #b09a68,
+        inset 0 0 0 12px #c8b88e,
+        inset 0 0 0 15px #8a7440;
+    }
+
+    .frame-wide-black {
+      background: #fdfdfd;
+      box-shadow:
+        inset 0 0 0 2px #666,
+        inset 0 0 0 10px #111,
+        inset 0 0 0 11px #444,
+        inset 0 0 0 12px #111,
+        inset 0 0 0 15px #000;
+    }
+
+    .frame-carved {
+      background: #f8f4e8;
+      box-shadow:
+        inset 0 0 0 2px #d9c9a0,
+        inset 0 0 0 5px #b39b63,
+        inset 0 0 0 6px #8a7440,
+        inset 0 0 0 9px #e8dcc0,
+        inset 0 0 0 10px #b39b63,
+        inset 0 0 0 13px #6b5428;
+    }
+
+    .frame-carved-dark {
+      background: #f4efe6;
+      box-shadow:
+        inset 0 0 0 2px #8a6a3a,
+        inset 0 0 0 5px #4a3015,
+        inset 0 0 0 6px #2a1a08,
+        inset 0 0 0 9px #6b4f2e,
+        inset 0 0 0 10px #3e2c18,
+        inset 0 0 0 13px #1a0e04;
+    }
+
     .card-body {
       padding: 0 16px 20px;
     }
@@ -471,7 +513,7 @@
 
     document.querySelectorAll('.filter').forEach(b => b.addEventListener('click', () => setFilter(b.dataset.filter)));
 
-    const FRAMES = ['frame-gold', 'frame-darkwood', 'frame-black', 'frame-silver', 'frame-lightwood', 'frame-white'];
+    const FRAMES = ['frame-gold', 'frame-darkwood', 'frame-black', 'frame-silver', 'frame-lightwood', 'frame-white', 'frame-wide-gold', 'frame-wide-black', 'frame-carved', 'frame-carved-dark'];
 
     function renderGallery() {
       const gallery = document.getElementById('gallery');
