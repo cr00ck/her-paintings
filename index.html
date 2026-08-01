@@ -273,6 +273,7 @@
     }
 
     .card-cart:hover { background: #5a8db0; color: #fff; }
+    .card-cart.in-cart { background: #5a8db0; color: #fff; }
 
     .card-image {
       width: 100%;
@@ -803,12 +804,15 @@
       document.getElementById('cartOverlay').classList.toggle('open');
     }
 
-    function addToCart(id, event) {
+    function toggleCartItem(id, event) {
       event.stopPropagation();
-      if (!cart.includes(id)) {
+      if (cart.includes(id)) {
+        cart = cart.filter(x => x !== id);
+      } else {
         cart.push(id);
-        saveCart();
       }
+      saveCart();
+      renderGallery();
     }
 
     function removeFromCart(id) {
@@ -855,7 +859,7 @@
               </div>
             </div>
             ${p.tags?.length ? `            <div class="card-tags">${p.tags.map(t => `<span>${t}</span>`).join('')}</div>` : ''}
-            <button class="card-cart" onclick="addToCart(${p.id}, event)" title="В корзину">&#128722;</button>
+            <button class="card-cart ${cart.includes(p.id) ? 'in-cart' : ''}" onclick="toggleCartItem(${p.id}, event)" title="В корзину">&#128722;</button>
           </div>
         </div>
         `;
