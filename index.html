@@ -138,14 +138,64 @@
     }
 
     .card-image-wrap {
-      background: #fdfdf9;
       padding: 18px;
+    }
+
+    .frame-gold {
+      background: #fdfdf9;
       box-shadow:
         inset 0 0 0 1px #f2ead4,
         inset 0 0 0 3px #c8b88e,
         inset 0 0 0 4px #b09a68,
         inset 0 0 0 5px #c8b88e,
         inset 0 0 0 7px #8a7440;
+    }
+
+    .frame-darkwood {
+      background: #f8f5ee;
+      box-shadow:
+        inset 0 0 0 2px #6b4f2e,
+        inset 0 0 0 4px #3e2c18,
+        inset 0 0 0 5px #6b4f2e,
+        inset 0 0 0 8px #241505;
+    }
+
+    .frame-black {
+      background: #fdfdfd;
+      box-shadow:
+        inset 0 0 0 1px #555,
+        inset 0 0 0 4px #111,
+        inset 0 0 0 5px #444,
+        inset 0 0 0 7px #000;
+    }
+
+    .frame-silver {
+      background: #fcfcfc;
+      box-shadow:
+        inset 0 0 0 1px #e8e8e8,
+        inset 0 0 0 3px #cfcfcf,
+        inset 0 0 0 4px #999,
+        inset 0 0 0 5px #cfcfcf,
+        inset 0 0 0 7px #777;
+    }
+
+    .frame-lightwood {
+      background: #fdfaf4;
+      box-shadow:
+        inset 0 0 0 2px #c99b57,
+        inset 0 0 0 4px #a97e3f,
+        inset 0 0 0 5px #c99b57,
+        inset 0 0 0 8px #8a6530;
+    }
+
+    .frame-white {
+      background: #fdfdfd;
+      box-shadow:
+        inset 0 0 0 1px #eee,
+        inset 0 0 0 3px #ddd,
+        inset 0 0 0 4px #ccc,
+        inset 0 0 0 5px #ddd,
+        inset 0 0 0 7px #aaa;
     }
 
     .card-body {
@@ -421,6 +471,8 @@
 
     document.querySelectorAll('.filter').forEach(b => b.addEventListener('click', () => setFilter(b.dataset.filter)));
 
+    const FRAMES = ['frame-gold', 'frame-darkwood', 'frame-black', 'frame-silver', 'frame-lightwood', 'frame-white'];
+
     function renderGallery() {
       const gallery = document.getElementById('gallery');
       if (!paintings.length) {
@@ -432,9 +484,11 @@
         gallery.innerHTML = '<div class="empty">По выбранным параметрам ничего не найдено</div>';
         return;
       }
-      gallery.innerHTML = filtered.map(p => `
+      gallery.innerHTML = filtered.map(p => {
+        const frame = FRAMES[p.id % FRAMES.length];
+        return `
         <div class="card" onclick="openLightbox(${p.id})">
-          <div class="card-image-wrap">
+          <div class="card-image-wrap ${frame}">
             <img class="card-image" src="${p.image}" alt="${p.title}"
                  onerror="this.style.padding='60%';this.style.background='#f0f0f0'">
           </div>
@@ -446,7 +500,8 @@
             ${p.tags?.length ? `<div class="card-tags">${p.tags.map(t => `<span>${t}</span>`).join('')}</div>` : ''}
           </div>
         </div>
-      `).join('');
+        `;
+      }).join('');
     }
 
     function openLightbox(id) {
