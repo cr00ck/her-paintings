@@ -265,15 +265,26 @@
       height: 34px;
       border-radius: 50%;
       cursor: pointer;
-      font-size: 1em;
       display: flex;
       align-items: center;
       justify-content: center;
       transition: all 0.2s;
     }
 
-    .card-cart:hover { background: #5a8db0; color: #fff; }
-    .card-cart.in-cart { background: #5a8db0; color: #fff; }
+    .card-cart svg {
+      width: 16px;
+      height: 16px;
+      fill: none;
+      stroke: #666;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: all 0.2s;
+    }
+
+    .card-cart:hover svg { stroke: #fff; }
+    .card-cart.in-cart { background: #5a8db0; }
+    .card-cart.in-cart svg { stroke: #fff; }
 
     .card-image {
       width: 100%;
@@ -859,7 +870,9 @@
               </div>
             </div>
             ${p.tags?.length ? `            <div class="card-tags">${p.tags.map(t => `<span>${t}</span>`).join('')}</div>` : ''}
-            <button class="card-cart ${cart.includes(p.id) ? 'in-cart' : ''}" onclick="toggleCartItem(${p.id}, event)" title="В корзину">&#128722;</button>
+            <button class="card-cart ${cart.includes(p.id) ? 'in-cart' : ''}" onclick="toggleCartItem(${p.id}, event)" title="В корзину">
+              <svg viewBox="0 0 24 24"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4"/><path d="M7 13l-1.5 4h11.5"/><circle cx="9" cy="20" r="1"/><circle cx="17" cy="20" r="1"/></svg>
+            </button>
           </div>
         </div>
         `;
