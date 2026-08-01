@@ -401,6 +401,48 @@
     .filter:hover { background: rgba(255,255,255,0.9); color: #111; }
     .filter.active { background: #5a8db0; color: #fff; }
 
+    .filter-sep {
+      width: 1px;
+      height: 24px;
+      background: #ccc;
+      align-self: center;
+    }
+
+    .price-filter {
+      background: rgba(255,255,255,0.6);
+      border: 1px solid #ddd;
+      padding: 8px 12px;
+      border-radius: 20px;
+      font-size: 0.88em;
+      font-family: inherit;
+      color: #555;
+      cursor: pointer;
+    }
+
+    .heart {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      font-size: 1.6em;
+      background: rgba(255,255,255,0.85);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      cursor: pointer;
+      color: #bbb;
+      transition: all 0.2s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      z-index: 2;
+    }
+
+    .heart:hover { transform: scale(1.15); }
+    .heart.liked { color: #e0245e; }
+    .card-image-wrap { position: relative; }
+
     .content {
       max-width: 1100px;
       margin: 0 auto;
@@ -480,6 +522,13 @@
         <button class="filter" data-filter="архитектура">Архитектура</button>
         <button class="filter" data-filter="природа">Природа</button>
         <button class="filter" data-filter="люди">Люди</button>
+        <span class="filter-sep"></span>
+        <select class="price-filter" id="priceFilter">
+          <option value="all">Цена: все</option>
+          <option value="500-1500">500 — 1 500 ₽</option>
+          <option value="1501-3000">1 501 — 3 000 ₽</option>
+          <option value="3001-5000">3 001 — 5 000 ₽</option>
+        </select>
       </div>
 
       <div class="gallery" id="gallery"></div>
@@ -504,6 +553,8 @@
     let paintings = [];
     let currentId = 0;
     let activeFilter = 'all';
+    let priceFilter = 'all';
+    let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
 
     async function loadGallery() {
       try {
@@ -522,7 +573,20 @@
       renderGallery();
     }
 
+    function toggleFavorite(id, event) {
+      event.stopPropagation();
+      const idx = favorites.indexOf(id);
+      if (idx > -1) favorites.splice(idx, 1);
+      else favorites.push(id);
+      localStorage.setItem('favorites', JSON.stringify(favorites));
+      renderGallery();
+    }
+
     document.querySelectorAll('.filter').forEach(b => b.addEventListener('click', () => setFilter(b.dataset.filter)));
+    document.getElementById('priceFilter').addEventListener('change', e => {
+      priceFilter = e.target.value;
+      renderGallery();
+    });
 
     const FRAMES = ['frame-gold', 'frame-darkwood', 'frame-black', 'frame-silver', 'frame-lightwood', 'frame-white', 'frame-wide-gold', 'frame-wide-black', 'frame-carved', 'frame-carved-dark'];
 
@@ -532,16 +596,22 @@
         gallery.innerHTML = '<div class="empty">Галерея пока пуста</div>';
         return;
       }
-      const filtered = activeFilter === 'all' ? paintings : paintings.filter(p => p.tags.includes(activeFilter));
+      let filtered = activeFilter === 'all' ? paintings : paintings.filter(p => p.tags.includes(activeFilter));
+      if (priceFilter !== 'all') {
+        const [min, max] = priceFilter.split('-').map(Number);
+        filtered = filtered.filter(p => p.price >= min && p.price <= max);
+      }
       if (!filtered.length) {
         gallery.innerHTML = '<div class="empty">По выбранным параметрам ничего не найдено</div>';
         return;
       }
       gallery.innerHTML = filtered.map(p => {
         const frame = FRAMES[p.id % FRAMES.length];
+        const liked = favorites.includes(p.id);
         return `
         <div class="card" onclick="openLightbox(${p.id})">
           <div class="card-image-wrap ${frame}">
+            <button class="heart ${liked ? 'liked' : ''}" onclick="toggleFavorite(${p.id}, event)">${liked ? '♥' : '♡'}</button>
             <img class="card-image" src="${p.image}" alt="${p.title}"
                  onerror="this.style.padding='60%';this.style.background='#f0f0f0'">
           </div>
@@ -565,7 +635,8 @@
       document.getElementById('lightbox-info').innerHTML =
         `<div class="title">${p.title}</div>` +
         (p.description ? `<div class="desc">${p.description}</div>` : '') +
-        (p.price && !p.sold ? `<div class="price">${p.price.toLocaleString()} ₽</div>` : p.sold ? `<div class="price" style="opacity:0.5">Продано</div>` : '');
+        (p.price && !p.sold ? `<div class="price">${p.price.toLocaleString()} ₽</div>` : p.sold ? `<div class="price" style="opacity:0.5">Продано</div>` : '') +
+        (p.tags?.length ? `<div class="desc">${p.tags.join(' · ')}</div>` : '');
       document.getElementById('lightbox').classList.add('open');
     }
 
