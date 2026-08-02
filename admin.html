@@ -108,7 +108,16 @@
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="container" id="loginGate">
+    <h1>Вход в админку</h1>
+    <div class="card-form">
+      <label>Пароль</label>
+      <input type="password" id="passInput" placeholder="Пароль">
+      <button onclick="checkPass()">Войти</button>
+    </div>
+  </div>
+
+  <div class="container" id="adminPanel" style="display:none">
     <a class="back" href="/her-paintings/">&#8592; На сайт</a>
     <h1>Админка галереи</h1>
 
@@ -143,6 +152,36 @@
     const URL = 'https://ytvdjtuzpdfkddmkcbdn.supabase.co';
     const KEY = 'sb_publishable_50ggEZuUwdsUxbkLWJkgZQ_RhBdDiBe';
     const BUCKET = 'her-paintings-images';
+    const PASS_HASH = 'bcd6ce2953f341beda0bbd1146a9e18df78ac72b0932d2a02a89a8837dc5097c';
+    const PASS_SALT = 'her-gal-2026';
+
+    async function sha256(text) {
+      const data = new TextEncoder().encode(PASS_SALT + text);
+      const buf = await crypto.subtle.digest('SHA-256', data);
+      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    async function checkPass() {
+      const val = document.getElementById('passInput').value;
+      const hash = await sha256(val);
+      if (hash === PASS_HASH) {
+        sessionStorage.setItem('admin_auth', '1');
+        document.getElementById('loginGate').style.display = 'none';
+        document.getElementById('adminPanel').style.display = 'block';
+        loadList();
+      } else {
+        alert('Неверный пароль');
+      }
+    }
+
+    document.getElementById('passInput').addEventListener('keydown', e => {
+      if (e.key === 'Enter') checkPass();
+    });
+
+    if (sessionStorage.getItem('admin_auth') === '1') {
+      document.getElementById('loginGate').style.display = 'none';
+      document.getElementById('adminPanel').style.display = 'block';
+    }
 
     function setStatus(msg, ok) {
       const el = document.getElementById('status');
