@@ -700,6 +700,8 @@
         <button class="filter" data-filter="природа">Природа</button>
         <button class="filter" data-filter="люди">Люди</button>
         <span class="filter-sep"></span>
+        <button class="filter" id="favFilter" data-filter="fav">&#9829; Избранное</button>
+        <span class="filter-sep"></span>
         <select class="price-filter" id="priceFilter">
           <option value="all">Цена: все</option>
           <option value="500-1500">500 — 1 500 ₽</option>
@@ -843,7 +845,8 @@
         gallery.innerHTML = '<div class="empty">Галерея пока пуста</div>';
         return;
       }
-      let filtered = activeFilter === 'all' ? paintings : paintings.filter(p => p.tags.includes(activeFilter));
+      let filtered = activeFilter === 'fav' ? paintings.filter(p => favorites.includes(p.id))
+        : activeFilter === 'all' ? paintings : paintings.filter(p => p.tags.includes(activeFilter));
       if (priceFilter !== 'all') {
         const [min, max] = priceFilter.split('-').map(Number);
         filtered = filtered.filter(p => p.price >= min && p.price <= max);
