@@ -673,7 +673,7 @@
     <a href="/" class="logo">Галерея</a>
     <nav>
       <a href="https://instagram.com" target="_blank">Instagram</a>
-      <a href="mailto:email@mail.ru">Связаться</a>
+      <a href="/her-paintings/admin.html">Админка</a>
     </nav>
   </header>
 
@@ -752,7 +752,12 @@
 
     async function loadGallery() {
       try {
-        const res = await fetch('paintings.json');
+        const res = await fetch('https://ytvdjtuzpdfkddmkcbdn.supabase.co/rest/v1/paintings?select=*&order=id.asc', {
+          headers: {
+            'apikey': 'sb_publishable_50ggEZuUwdsUxbkLWJkgZQ_RhBdDiBe',
+            'Authorization': 'Bearer sb_publishable_50ggEZuUwdsUxbkLWJkgZQ_RhBdDiBe'
+          }
+        });
         paintings = await res.json();
         renderGallery();
       } catch {
@@ -796,7 +801,7 @@
           if (!p) return '';
           return `
             <div class="cart-item">
-              <img src="${p.image}" alt="${p.title}">
+              <img src="${p.image_url}" alt="${p.title}">
               <div class="cart-item-info">
                 <div class="cart-item-name">${p.title}</div>
                 <div class="cart-item-price">${p.price.toLocaleString()} ₽</div>
@@ -862,7 +867,7 @@
         <div class="card" onclick="openLightbox(${p.id})">
           <div class="card-image-wrap ${frame}">
             <button class="heart ${liked ? 'liked' : ''}" onclick="toggleFavorite(${p.id}, event)">${liked ? '♥' : '♡'}</button>
-            <img class="card-image" src="${p.image}" alt="${p.title}"
+            <img class="card-image" src="${p.image_url}" alt="${p.title}"
                  onerror="this.style.padding='60%';this.style.background='#f0f0f0'">
           </div>
           <div class="card-body">
@@ -886,7 +891,7 @@
       currentId = id;
       const p = paintings.find(x => x.id === id);
       if (!p) return;
-      document.getElementById('lightbox-img').src = p.image;
+      document.getElementById("lightbox-img").src = p.image_url;
       document.getElementById('lightbox-info').innerHTML =
         `<div class="title">${p.title}</div>` +
         (p.description ? `<div class="desc">${p.description}</div>` : '') +

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Админка — Галерея</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #d4ebf7;
+      color: #111;
+      line-height: 1.5;
+      padding: 40px 20px;
+    }
+    .container { max-width: 700px; margin: 0 auto; }
+    h1 { font-size: 1.8em; margin-bottom: 24px; }
+    .card-form {
+      background: #fff;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 32px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+    .card-form h2 { font-size: 1.2em; margin-bottom: 16px; }
+    label { display: block; font-size: 0.9em; color: #555; margin-bottom: 4px; }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 0.95em;
+      font-family: inherit;
+      margin-bottom: 14px;
+      background: #fafafa;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #5a8db0;
+      background: #fff;
+    }
+    input[type="file"] { padding: 8px; }
+    button {
+      background: #5a8db0;
+      color: #fff;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 1em;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover { background: #4a7a9a; }
+    button.secondary {
+      background: #eee;
+      color: #333;
+    }
+    button.secondary:hover { background: #ddd; }
+    button.danger { background: #e0245e; }
+    button.danger:hover { background: #b81d4e; }
+    .status {
+      padding: 10px 14px;
+      border-radius: 8px;
+      margin-bottom: 14px;
+      display: none;
+      font-size: 0.9em;
+    }
+    .status.ok { display: block; background: #e8f5e9; color: #2e7d32; }
+    .status.err { display: block; background: #fdecea; color: #c62828; }
+    .item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #fff;
+      border-radius: 10px;
+      padding: 10px;
+      margin-bottom: 10px;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+    }
+    .item img {
+      width: 56px;
+      height: 56px;
+      object-fit: cover;
+      border-radius: 6px;
+      background: #f0f0f0;
+    }
+    .item-info { flex: 1; }
+    .item-info .name { font-weight: 500; font-size: 0.95em; }
+    .item-info .meta { font-size: 0.8em; color: #888; }
+    .item-actions { display: flex; gap: 6px; }
+    .item-actions button { padding: 6px 12px; font-size: 0.85em; }
+    .preview { display: none; margin-bottom: 14px; }
+    .preview img {
+      max-width: 200px;
+      max-height: 160px;
+      border-radius: 8px;
+      border: 1px solid #eee;
+    }
+    a.back {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: #5a8db0;
+      text-decoration: none;
+      font-size: 0.9em;
+    }
+    a.back:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a class="back" href="/her-paintings/">&#8592; На сайт</a>
+    <h1>Админка галереи</h1>
+
+    <div class="status" id="status"></div>
+
+    <div class="card-form">
+      <h2>Добавить картину</h2>
+      <label>Фото</label>
+      <input type="file" id="file" accept="image/*">
+      <div class="preview" id="preview"><img id="previewImg" src=""></div>
+      <label>Название</label>
+      <input type="text" id="title" placeholder="Название картины">
+      <label>Описание</label>
+      <textarea id="description" rows="3" placeholder="Материалы, размер, вдохновение..."></textarea>
+      <label>Цена (₽)</label>
+      <input type="number" id="price" placeholder="Например: 2500">
+      <label>Категория</label>
+      <select id="tags">
+        <option value="натюрморт">Натюрморт</option>
+        <option value="архитектура">Архитектура</option>
+        <option value="природа">Природа</option>
+        <option value="люди">Люди</option>
+      </select>
+      <button onclick="addPainting()">Сохранить</button>
+    </div>
+
+    <h2 style="margin-bottom:14px">Существующие картины</h2>
+    <div id="list"></div>
+  </div>
+
+  <script>
+    const URL = 'https://ytvdjtuzpdfkddmkcbdn.supabase.co';
+    const KEY = 'sb_publishable_50ggEZuUwdsUxbkLWJkgZQ_RhBdDiBe';
+    const BUCKET = 'her-paintings-images';
+
+    function setStatus(msg, ok) {
+      const el = document.getElementById('status');
+      el.textContent = msg;
+      el.className = 'status ' + (ok ? 'ok' : 'err');
+      setTimeout(() => { el.className = 'status'; }, 4000);
+    }
+
+    document.getElementById('file').addEventListener('change', e => {
+      const f = e.target.files[0];
+      if (!f) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        document.getElementById('preview').style.display = 'block';
+        document.getElementById('previewImg').src = ev.target.result;
+      };
+      reader.readAsDataURL(f);
+    });
+
+    async function uploadImage(file) {
+      const ext = file.name.split('.').pop().toLowerCase();
+      const name = Date.now() + '.' + ext;
+      const res = await fetch(`${URL}/storage/v1/object/${BUCKET}/${name}`, {
+        method: 'POST',
+        headers: {
+          'apikey': KEY,
+          'Authorization': 'Bearer ' + KEY,
+          'Content-Type': file.type
+        },
+        body: file
+      });
+      if (!res.ok) throw new Error('Ошибка загрузки фото');
+      return `${URL}/storage/v1/object/public/${BUCKET}/${name}`;
+    }
+
+    async function addPainting() {
+      const file = document.getElementById('file').files[0];
+      const title = document.getElementById('title').value.trim();
+      const description = document.getElementById('description').value.trim();
+      const price = parseInt(document.getElementById('price').value) || 0;
+      const tag = document.getElementById('tags').value;
+
+      if (!title || !file) {
+        setStatus('Заполни фото и название', false);
+        return;
+      }
+
+      setStatus('Загружаю...', true);
+      try {
+        const imageUrl = await uploadImage(file);
+        const res = await fetch(`${URL}/rest/v1/paintings`, {
+          method: 'POST',
+          headers: {
+            'apikey': KEY,
+            'Authorization': 'Bearer ' + KEY,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=representation'
+          },
+          body: JSON.stringify({
+            title, description, price,
+            sold: false,
+            image_url: imageUrl,
+            tags: [tag]
+          })
+        });
+        if (!res.ok) throw new Error('Ошибка сохранения');
+        setStatus('Картина добавлена!', true);
+        document.getElementById('title').value = '';
+        document.getElementById('description').value = '';
+        document.getElementById('price').value = '';
+        document.getElementById('file').value = '';
+        document.getElementById('preview').style.display = 'none';
+        loadList();
+      } catch (e) {
+        setStatus(e.message, false);
+      }
+    }
+
+    async function loadList() {
+      try {
+        const res = await fetch(`${URL}/rest/v1/paintings?select=*&order=id.desc`, {
+          headers: {
+            'apikey': KEY,
+            'Authorization': 'Bearer ' + KEY
+          }
+        });
+        const items = await res.json();
+        document.getElementById('list').innerHTML = items.map(p => `
+          <div class="item">
+            <img src="${p.image_url}" onerror="this.style.background='#f0f0f0'">
+            <div class="item-info">
+              <div class="name">${p.title}</div>
+              <div class="meta">${p.price.toLocaleString()} ₽ · ${(p.tags || []).join(', ')}</div>
+            </div>
+            <div class="item-actions">
+              <button class="secondary" onclick="toggleSold(${p.id}, ${p.sold})">${p.sold ? 'В продаже' : 'Продано'}</button>
+              <button class="danger" onclick="deletePainting(${p.id})">Удалить</button>
+            </div>
+          </div>
+        `).join('');
+      } catch (e) {
+        document.getElementById('list').innerHTML = '<p style="color:#999">Не удалось загрузить список</p>';
+      }
+    }
+
+    async function toggleSold(id, sold) {
+      const res = await fetch(`${URL}/rest/v1/paintings?id=eq.${id}`, {
+        method: 'PATCH',
+        headers: {
+          'apikey': KEY,
+          'Authorization': 'Bearer ' + KEY,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=representation'
+        },
+        body: JSON.stringify({ sold: !sold })
+      });
+      if (res.ok) loadList();
+    }
+
+    async function deletePainting(id) {
+      if (!confirm('Удалить картину?')) return;
+      const res = await fetch(`${URL}/rest/v1/paintings?id=eq.${id}`, {
+        method: 'DELETE',
+        headers: {
+          'apikey': KEY,
+          'Authorization': 'Bearer ' + KEY
+        }
+      });
+      if (res.ok) loadList();
+    }
+
+    loadList();
+  </script>
+</body>
+</html>
